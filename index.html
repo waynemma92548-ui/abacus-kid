@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="珠心算小英雄">
+<meta name="theme-color" content="#ffd6e8">
+<title>珠心算小英雄</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css?v=e670267c">
+</head>
+<body>
+<header class="top">
+  <button class="home" data-go="map" aria-label="回地圖"><span class="ic">🏰</span><span class="txt" data-zy="回地圖">回地圖</span></button>
+  <h1 data-zy="珠心算小英雄">珠心算小英雄</h1>
+  <button class="who" id="who" data-go="who" aria-label="換人"><span class="who-face" id="who-face"></span><span id="who-name"></span></button>
+  <span class="starbox">⭐ <b id="stars">0</b></span>
+  <button class="hbtn" data-go="dress" aria-label="更衣室">✨</button>
+  <button class="hbtn" data-go="parent" aria-label="家長">👨‍👧</button>
+</header>
+
+<main>
+<section class="screen" id="scr-start">
+  <div class="splash">
+    <div class="crown">🌟</div>
+    <h2 data-zy="珠心算小英雄">珠心算小英雄</h2>
+    <p class="ask" data-zy="誰要玩？">誰要玩？</p>
+    <div class="who-list" id="who-list"></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-map" hidden>
+  <div class="map">
+    <div id="worlds"></div>
+    <aside class="map-side">
+      <div class="grade" id="map-grade"></div>
+      <div id="map-princess"></div>
+      <button class="btn xform" id="map-xform" hidden><span class="ic">⚡</span><span data-zy="變身">變身</span></button>
+      <button class="btn" data-go="dress"><span class="ic">✨</span><span data-zy="更衣室">更衣室</span></button>
+      <button class="btn" data-go="saga"><span class="ic">📜</span><span data-zy="故事">故事</span></button>
+    </aside>
+  </div>
+</section>
+
+<section class="screen" id="scr-lesson" hidden>
+  <div class="lesson-head"><button class="back" data-go="map"><span class="ic">◀</span><span data-zy="回地圖">回地圖</span></button>
+    <h2 id="l-title"></h2><span class="chip" id="phase"></span><button class="modebtn" id="mode" hidden></button><div class="dots" id="dots"></div></div>
+  <div class="lesson-body">
+    <div class="board"><div class="abacus" id="abacus"></div></div>
+    <div class="side">
+      <div class="question" id="question"></div>
+      <div class="caption" id="caption"></div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="controls" id="controls"></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="scr-result" hidden>
+  <div class="result">
+    <h2 id="r-title"></h2>
+    <p class="score" id="r-score"></p>
+    <p class="earned" id="r-stars"></p>
+    <p id="r-msg"></p>
+    <div class="controls" id="r-buttons"></div>
+  </div>
+</section>
+
+<section class="screen" id="scr-dress" hidden>
+  <button class="back" data-go="map"><span class="ic">◀</span><span data-zy="回地圖">回地圖</span></button>
+  <div class="dress">
+    <div class="stagecol"><div class="stage" id="dress-princess"></div>
+      <button class="btn xform" id="dress-xform" hidden><span class="ic">⚡</span><span data-zy="變身">變身</span></button></div>
+    <div class="wardrobe">
+      <div class="chars" id="chars"></div>
+      <p class="starline">⭐ <b id="d-stars">0</b></p>
+      <div class="slots" id="slots"></div>
+      <div class="items" id="items"></div>
+    </div>
+  </div>
+  <!-- 買東西前先預覽（2026-11-27：直接買容易按錯），「不要」和「買下來」分在兩邊、顏色不同 -->
+  <div class="modal" id="buy" hidden>
+    <div class="mbox">
+      <div class="mpic" id="buy-pic"></div>
+      <div class="minfo">
+        <h3 id="buy-name"></h3>
+        <p class="mcost" id="buy-cost"></p>
+        <div class="mbtns"><button class="btn no" id="buy-no"></button><button class="btn yes" id="buy-yes"></button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen parent" id="scr-parent" hidden>
+  <button class="back" data-go="map"><span class="ic">◀</span><span data-zy="回地圖">回地圖</span></button>
+  <h2>家長頁</h2>
+  <h3>小朋友</h3>
+  <p class="muted">每個小朋友有自己的進度、星星和角色衣服。下面的成績是「<b id="p-who"></b>」的。</p>
+  <ul class="plist" id="p-profiles"></ul>
+  <p><button class="btn" id="p-add">＋ 新增小朋友</button></p>
+  <h3>各關成績</h3>
+  <p class="muted">「最近／最好」是自己做時第一次就答對的比例，80% 以上算過關。</p>
+  <table id="p-table"></table>
+  <h3>常錯的方法</h3>
+  <ul id="p-mistakes"></ul>
+  <h3>語音（台灣口音）</h3>
+  <p id="p-voice-now"></p>
+  <select id="p-voice"></select>
+  <button class="btn" id="p-test">試聽</button>
+  <div id="p-novoice" class="note" hidden>
+    這台裝置找不到台灣口音的中文語音，為了不出現中國口音，程式不會改用其他中文語音。安裝方法：
+    <ul>
+      <li>Windows：設定 → 時間與語言 → 語音 → 新增語音 → 中文（台灣），裝好後重新開啟瀏覽器</li>
+      <li>iPad：設定 → 輔助使用 → 朗讀內容 → 聲音 → 中文（台灣）→ 美佳（可下載「加強版」）</li>
+      <li>Android 平板：設定 → 文字轉語音輸出 → Google 語音服務 → 安裝語音資料 → 國語（臺灣）</li>
+    </ul>
+  </div>
+  <h3>設定</h3>
+  <label class="check"><input type="checkbox" id="p-unlock"> 開放全部關卡（不用照順序過關）</label>
+  <label class="check"><input type="checkbox" id="p-art"> 公主和變身戰士用新畫風（關掉就換回原本的畫風）</label>
+  <p><button class="btn danger" id="p-reset">清除這個小朋友的進度</button></p>
+  <p class="muted">進度存在這台裝置的瀏覽器裡，平板和電腦各自一份。</p>
+</section>
+</main>
+
+<script src="js/abacus.js?v=e670267c"></script>
+<script src="js/lessons.js?v=e670267c"></script>
+<script src="js/catalog.js?v=e670267c"></script>
+<script src="js/store.js?v=e670267c"></script>
+<script src="js/voice.js?v=e670267c"></script>
+<script src="js/zhuyin.js?v=e670267c"></script>
+<script src="js/princess.js?v=e670267c"></script>
+<script src="js/prince.js?v=e670267c"></script>
+<script src="js/mecha.js?v=e670267c"></script>
+<script src="js/truck.js?v=e670267c"></script>
+<script src="js/princess_art_data.js?v=e670267c"></script>
+<script src="js/princess_art.js?v=e670267c"></script>
+<script src="js/truck_art_data.js?v=e670267c"></script>
+<script src="js/truck_art.js?v=e670267c"></script>
+<script src="js/heroes.js?v=e670267c"></script>
+<script src="js/saga.js?v=e670267c"></script>
+<script src="js/app.js?v=e670267c"></script>
+</body>
+</html>
